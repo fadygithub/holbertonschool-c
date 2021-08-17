@@ -1,8 +1,8 @@
 #include "holberton.h"
 /**
  * _pow_recursion - calculate power of the number.
- *x: integer value.
- *y: integer value.
+ *@x: integer value.
+ *@y: integer value.
  *
  *Return: the value of x raised to the power of y..
  */
