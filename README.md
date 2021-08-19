@@ -1,2 +1,0 @@
-# holbertonschool-c
-Blockchain Program

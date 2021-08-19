@@ -1,2 +1,2 @@
-# 0x0A-malloc_free
+# holbertonschool-c
 Blockchain Program
