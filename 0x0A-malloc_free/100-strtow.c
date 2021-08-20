@@ -4,6 +4,7 @@
 * wordCounterRec - count num of words recursively
 * @str: pointer to char
 * @i: current index
+* @_strDup: return
 * Return: number of words
 **/
 int wordCounterRec(char *str, int i)
