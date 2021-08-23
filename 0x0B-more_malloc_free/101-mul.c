@@ -1,246 +1,97 @@
-#include <stdlib.h>
 #include "holberton.h"
+#include <stdio.h>
+#include <string.h>
 /**
-* printError - prints error message
-* Return: nothing
-**/
-void printError(void)
-{
-	_putchar('E');
-	_putchar('r');
-	_putchar('r');
-	_putchar('o');
-	_putchar('r');
-	_putchar('\n');
-}
-/**
-* digit_checker - checks if the passed arguements are valid
-* @str: pointer to char
-* Return: 0 if all chars are digits else -1
-**/
-int digit_checker(char *str)
+* _isNum - check if is a number
+*@num: string to check
+*Return: 1 is numm, 0 not num
+*/
+int _isNum(char *num)
 {
 	int i;
 
-	for (i = 0; str[i] != '\0'; i++)
+	for (i = 0; num[i] != '\0'; i++)
 	{
-		if (str[i] < '0' || str[i] > '9')
-		{
-			printError();
-			return (-1);
-		}
+		if (num[i] < '0' || num[i] > '9')
+			return (0);
 	}
-	return (0);
+	return (1);
 }
+
 /**
-* _strlen - calculates length of passed string
-* @str: pointer to char
-* Return: length of string
-**/
-int _strlen(char *str)
+* *_memset - copies a character to the firstn characters of the string pointed
+*@s: original string
+*@b: value to remplace
+*@n: number of bytes
+*Return: s (string modify)
+*/
+char *_memset(char *s, char b, unsigned int n)
 {
-	int i;
+	unsigned int i;
 
-	for (i = 0; str[i] != '\0'; i++)
-		;
-	return (i);
+	for (i = 0; i < n; i++)
+		s[i] = b;
+	return (s);
 }
+
 /**
-* _reallocate - reallocates memory if carry over if greater than 9
-* @str: pointer to char
-* @newSize: new size to allocate
-* Return: pointer to newly allocated memory
-**/
-char *_reallocate(char *str, int newSize)
+* _strlen - returns the lenght of a string
+*@s: poiter of character
+*Return: the length of a string
+*/
+int _strlen(char *s)
 {
-	char *newStr;
+	int len;
 
-	newStr = malloc(newSize * sizeof(char *));
-	if (newStr == NULL)
-	{
-		free(str);
-		return (NULL);
-	}
-	return (newStr);
+	len = 0;
+	while (*(s + len) != '\0')
+		len++;
+	return (len);
 }
-/**
-* mulNums - multiply an array
-* @str: array to be multiplied
-* @n: multiplier
-* @zeros: number of zeros to be added
-* Return: array with result
-**/
-char *mulNums(char *str, char n, int zeros)
-{
-	char *res, *newRes;
-	int i, k, mul, size, len, reSize;
 
-	len = _strlen(str);
-	size = reSize = len + zeros + 1;
-	res = malloc(sizeof(char) * size);
-	if (res == NULL)
-	{
-		printError();
-		return (NULL);
-	}
-	size--;
-	while (zeros > 0)
-	{
-		res[size] = '0';
-		size--, zeros--;
-	}
-	k = 0;
-	mul = 1;
-	while (size > 0)
-	{
-		mul = ((str[len - 1] - '0') * (n - '0')) + k;
-		res[size] = (mul % 10) + '0';
-		k = mul / 10;
-		size--, len--;
-	}
-	if (k >= 0 && k <= 9)
-	{
-		res[size] = k + '0';
-		return (res);
-	}
-	else if (k > 9)
-	{
-		res[size] = (k % 10) + '0';
-		newRes = _reallocate(res, reSize + 1);
-		if (newRes == NULL)
-			return (NULL);
-		newRes[0] = (k / 10) + '0';
-		for (i = 1; i < reSize + 1; i++)
-			newRes[i] = res[i];
-		free(res);
-		return (newRes);
-	}
-	res[size] = '0';
-	return (res);
-}
 /**
-* addNums - add two arrays of digits
-* @str1: array 1
-* @str2: array2
-* Return: pointer to char with sum
-**/
-char *addNums(char *str1, char *str2)
-{
-	char *add, *newAdd;
-	int sum, k, len1, len2, size, reSize, i;
-
-	len1 = _strlen(str1);
-	len2 = _strlen(str2);
-	size = reSize = len2 + 2;
-	add = malloc(sizeof(char) * size);
-	if (add == NULL)
-	{
-		free(str1);
-		free(str2);
-		printError();
-		return (NULL);
-	}
-	size--, len2--, len1--;
-	sum = k = 0;
-	sum = (str1[len1] - '0') + k;
-	add[size] = (sum % 10) + '0';
-	k = sum / 10;
-	size--, len1--;
-	while (len2 >= 0)
-	{
-		if (len1 < 0)
-			sum = (str2[len2] - '0') + k;
-		else
-			sum = (str1[len1] - '0') + (str2[len2] - '0') + k;
-		add[size] = (sum % 10) + '0';
-		k = sum / 10;
-		size--, len1--, len2--;
-	}
-	if (k >= 0 && k <= 9)
-	{
-		add[size] = k + '0';
-		return (add);
-	}
-	else if (k > 9)
-	{
-		add[size] = (k % 10) + '0';
-		newAdd = _reallocate(add, reSize + 1);
-		if (newAdd == NULL)
-			return (NULL);
-		newAdd[0] = (k / 10) + '0';
-		for (i = 1; i < reSize + 1; i++)
-			newAdd[i] = add[i];
-		free(add);
-		return (newAdd);
-	}
-	add[size] = '0';
-	return (add);
-}
-/**
-* printResult - prints result
-* @result: resultant string
-* Return: nothing
-**/
-void printResult(char *result)
-{
-	int i;
-
-	if (result[0] != '0')
-		_putchar(result[0]);
-
-	for (i = 1; result[i] != '\0'; i++)
-		_putchar(result[i]);
-	_putchar('\n');
-}
-/**
-* main - multiplies two positive numbers and prints result or error
-* @argc: arguement count
-* @argv: poinetr to arguements
-* Return: 0 or exit with 98
-**/
+* main - multiple 2 positive numbers
+*@argc: argument counter
+*@argv: number to multiply
+*Return: 0 (success)
+*/
 int main(int argc, char *argv[])
 {
-	int zero, len1, len2, counter;
-	char *str1, *str2, *current, *temp, *sum;
+	int length, c, prod, i, j, l1, l2;
+	int *res;
 
-	if (argc < 3 || argc > 3)
+	if ((argc != 3 || !(_isNum(argv[1]))) || !(_isNum(argv[2])))
+		puts("Error"), exit(98);
+	l1 = _strlen(argv[1]), l2 = _strlen(argv[2]);
+	length = l1 + l2;
+	res = calloc(length, sizeof(int *));
+	if (res == NULL)
+		puts("Error"), exit(98);
+	for (i = l2 - 1; i > -1; i--)
 	{
-		printError();
-		exit(98);
+		c = 0;
+		for (j = l1; j > -1; j--)
+		{
+			prod = (argv[2][i] - '0') * (argv[1][j] - '0');
+			c = (prod / 10);
+			res[(i + j) + 1] += (prod % 10);
+			if (res[(i + j) + 1] > 9)
+			{
+				res[i + j] += res[(i + j) + 1] / 10;
+				res[(i + j) + 1] = res[(i + j) + 1] % 10;
+			}
+			res[(i + j) + 1] += c;
+		}
 	}
-	if (digit_checker(argv[1]) == -1 || digit_checker(argv[2]) == -1)
-		exit(98);
-	len1 = _strlen(argv[1]);
-	len2 = _strlen(argv[2]);
-	if (len2 > len1)
-	{
-		str1 = argv[2];
-		str2 = argv[1];
-		counter = len1 - 1;
-	}
+
+	if (res[0] == 0)
+		i = 1;
 	else
-	{
-		str1 = argv[1];
-		str2 = argv[2];
-		counter = len2 - 1;
-	}
-	zero = 0;
-	current = mulNums(str1, str2[counter], zero);
-	if (current == NULL)
-		exit(98);
-	while (--counter >= 0)
-	{
-		temp = mulNums(str1, str2[counter], zero++);
-		if (temp == NULL)
-			exit(98);
-		sum = addNums(current, temp);
-		if (sum == NULL)
-			exit(98);
-		free(current);
-		free(temp);
-		current = sum;
-	}
-	printResult(sum);
+		i = 0;
+	for (; i < length; i++)
+		printf("%d", res[i]);
+
+	printf("\n");
+	free(res);
 	return (0);
 }
-
