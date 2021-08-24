@@ -1,2 +1,1 @@
-#  0x80-static_libraries
-Blockchain Program
+0x80-static_libraries project
